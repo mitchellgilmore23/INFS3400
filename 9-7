@@ -1,0 +1,56 @@
+using System;
+using static System.Console;
+using System.Globalization;
+public class ShirtDemo
+{
+	public static void Main()
+	{
+        // Create several Shirt objects
+        Shirt shirt1 = new Shirt("Cotton", "Red", "M");
+        Shirt shirt2 = new Shirt("Polyester", "Blue", "L");
+        Shirt shirt3 = new Shirt("Silk", "Green", "S");
+
+        // Display shirts
+        Display(shirt1);
+        Display(shirt1, shirt2);
+        Display(shirt1, shirt2, shirt3);	
+	}
+	public static void Display(params Shirt[] shirts)
+    {
+        foreach (var shirt in shirts)
+        {
+            shirt.DisplayShirts();
+        }
+        Console.WriteLine();
+    }
+}
+public class Shirt
+{
+    // Auto-implemented properties
+    public string Material { get; set; }
+    public string Color { get; set; }
+    public string Size { get; set; }
+
+    // Default constructor
+    public Shirt()
+    {
+        Material = string.Empty;
+        Color = string.Empty;
+        Size = string.Empty;
+    }
+
+    // Constructor with parameters
+    public Shirt(string material, string color, string size)
+    {
+        Material = material;
+        Color = color;
+        Size = size;
+    }
+
+    // Method to display the shirt details
+    public void DisplayShirts()
+    {
+        Console.WriteLine($"Material: {Material}, Color: {Color}, Size: {Size}");
+    }
+}
+
