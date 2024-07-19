@@ -1,0 +1,86 @@
+using System;
+using System.Globalization;
+
+public class SalesTransaction
+{
+    // Fields
+    string name;
+    double salesAmount;
+    double commission;
+    readonly double RATE;
+
+    // Properties
+    public string Name{
+        get { return name; }
+        set { name = value; }
+    }
+
+    public double SalesAmount{
+        get { return salesAmount; }
+        set{
+            salesAmount = value;
+            commission = salesAmount * RATE;
+        }
+    }
+
+    public double Commission{
+        get { return commission; }
+    }
+
+    public double getRate(){
+        return RATE;
+    }
+
+    public SalesTransaction(string name, double salesAmount, double rate){
+        this.name = name;
+        this.salesAmount = salesAmount;
+        this.RATE = rate;
+        this.commission = salesAmount * rate;
+    }
+
+    public SalesTransaction(string name, double salesAmount){
+        this.name = name;
+        this.salesAmount = salesAmount;
+        this.RATE = 0;
+        this.commission = 0;
+    }
+
+    public SalesTransaction(string name){
+        this.name = name;
+        this.salesAmount = 0;
+        this.RATE = 0;
+        this.commission = 0;
+    }
+
+    public static SalesTransaction operator + (SalesTransaction a, SalesTransaction b){
+        double totalSalesAmount = a.salesAmount + b.salesAmount;
+        double combinedRate = Math.Max(a.RATE, b.RATE);
+        return new SalesTransaction("Total", totalSalesAmount, combinedRate);
+    }
+
+    public void Display(){
+        Console.WriteLine("Salesperson: {0}", Name);
+        Console.WriteLine("Sales Amount: {0}", SalesAmount.ToString("C", CultureInfo.GetCultureInfo("en-US")));
+        Console.WriteLine("Commission: {0}", Commission.ToString("C", CultureInfo.GetCultureInfo("en-US")));
+        Console.WriteLine("Commission Rate: {0}", getRate().ToString("P"));
+        Console.WriteLine();
+    }
+}
+
+public class SalesTransactionDemo
+{
+    public static void Main()
+    {
+        SalesTransaction sale1 = new SalesTransaction("Alice", 1000, 0.05);
+        SalesTransaction sale2 = new SalesTransaction("Bob", 2000, 0.07);
+        SalesTransaction sale3 = new SalesTransaction("Charlie", 1500);
+
+        sale1.Display();
+        sale2.Display();
+        sale3.Display();
+
+        SalesTransaction totalSales = sale1 + sale2 + sale3;
+        Console.WriteLine("Total Sales:");
+        totalSales.Display();
+    }
+}
