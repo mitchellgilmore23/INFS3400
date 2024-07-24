@@ -1,0 +1,59 @@
+using System;
+using static System.Console;
+using System.Globalization;
+class JobDemo{
+	static void Main()
+	{
+        Job job1 = new Job(111, "Smith", "exterior paint", 20);
+        Job job2 = new Job(112, "Johnson", "interior paint", 15);
+        Job job3 = new Job(111, "Brown", "roof repair", 25);
+        
+        Console.WriteLine(job1.ToString());
+        Console.WriteLine(job2.ToString());
+        Console.WriteLine(job3.ToString());
+
+        Console.WriteLine("Job 1 equals Job 2: {0}", job1.Equals(job2));
+        Console.WriteLine("Job 1 equals Job 3: {0}", job1.Equals(job3));
+
+        Console.WriteLine("Hash code for Job 1: {0}", job1.GetHashCode());
+        Console.WriteLine("Hash code for Job 2: {0}", job2.GetHashCode());
+        Console.WriteLine("Hash code for Job 3: {0}", job3.GetHashCode());	
+	}
+}
+public class Job{
+    public int JobNumber { get; set; }
+    public string Customer { get; set; }
+    public string Description { get; set; }
+    private double hours;
+    private double price;
+    
+    public double Hours{
+        get { return hours; }
+        set{
+            hours = value;
+            price = hours * 45.0;
+        }
+    }
+
+    public double Price{
+        get { return price; }
+    }
+
+    public Job(int jobNumber, string customer, string description, double hours){
+        JobNumber = jobNumber;
+        Customer = customer;
+        Description = description;
+        Hours = hours; // This will also set the price
+    }
+
+    public override bool Equals(object obj){
+        if (obj == null || GetType() != obj.GetType())
+        	return false;
+        Job otherJob = (Job)obj;
+        return JobNumber == otherJob.JobNumber;
+    }
+
+    public override int GetHashCode() => JobNumber;
+
+    public override string ToString() => $"Job {JobNumber} {Customer} {Description} {Hours} hours @{45.00.ToString("C", CultureInfo.GetCultureInfo("en-US"))} per hour. Total price is {Price.ToString("C", CultureInfo.GetCultureInfo("en-US"))}";
+}
