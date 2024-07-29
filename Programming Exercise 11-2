@@ -1,0 +1,40 @@
+using System;
+using static System.Console;
+using System.Globalization;
+class SwimmingWaterTemperature
+{
+	static void Main()
+	{
+		while (true){
+            try
+            {
+                Write("Enter another temperature or 999 to quit");
+                string input = Console.ReadLine();
+                double temperature = double.Parse(input);
+
+                if (temperature == 999){
+                    WriteLine("Quitting the program.");
+                    break;
+                }
+
+                // Check if the temperature is comfortable for swimming
+                if (IsComfortableForSwimming(temperature)) WriteLine($"{temperature} degrees is comfortable for swimming.");
+                else Console.WriteLine($"{temperature} degrees is not comfortable for swimming.");
+
+            }
+            catch (ArgumentException ex){
+                Console.WriteLine(ex.Message);
+            }
+            catch (FormatException){
+                Console.WriteLine("Please enter a valid temperature.");
+            }
+        }	
+	}	    
+	public static bool IsComfortableForSwimming(double temperature)
+    {
+        if (temperature < 32 || temperature > 212){
+            throw new ArgumentException("Value does not fall within the expected range.");
+        }
+        return temperature >= 70 && temperature <= 85;
+    }
+}
