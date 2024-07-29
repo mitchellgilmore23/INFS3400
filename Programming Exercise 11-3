@@ -1,0 +1,26 @@
+using System;
+using static System.Console;
+using System.Globalization;
+class FindSquareRoot{
+	static void Main(){
+		double sqrt = 0.0;
+        Write("Enter a number: ");
+        string input = Console.ReadLine();
+        try{
+            double number = double.Parse(input);
+            if (number < 0) throw new ApplicationException("Number can't be negative.");
+            sqrt = Math.Sqrt(number);
+            WriteLine($"Square root is {sqrt}");
+        }
+        catch (FormatException){
+            WriteLine("Error: Please enter a valid number.");
+            sqrt = 0.0;
+            WriteLine($"Square root is {sqrt}");
+        }
+        catch (ApplicationException ex){
+            WriteLine($"Error: {ex.Message}");
+            sqrt = 0.0;
+            WriteLine($"Square root is {sqrt}");
+        }
+	}
+}
