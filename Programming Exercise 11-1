@@ -1,0 +1,29 @@
+using System;
+using static System.Console;
+using System.Globalization;
+class SubscriptExceptionTest
+{
+	static void Main()
+	{
+		double[] values = {20.3, 44.6, 32.5, 46.7, 89.6, 67.5, 12.3, 14.6, 22.1, 13.6};
+        while (true){
+            try{
+                Write("Enter a subscript value (0-9) or 99 to quit: ");
+                string input = Console.ReadLine();
+                int index = int.Parse(input);
+
+                if (index == 99){
+                    WriteLine("Quitting the program.");
+                    break;
+                }
+                Console.WriteLine("Value at index {0} is {1}", index, values[index]);
+            }
+            catch (IndexOutOfRangeException){
+                WriteLine("Index was outside the bounds of the array.");
+            }
+            catch (FormatException){
+                WriteLine("Please enter a valid integer.");
+            }	
+		}
+	}
+}
