@@ -1,0 +1,37 @@
+using System;
+using static System.Console;
+using System.Globalization;
+using System.IO;
+class FindPatientRecords2{
+   static void Main(){
+      const string filePath = "Patients.txt";
+      if (!File.Exists(filePath)){
+         Console.WriteLine("The file does not exist.");
+         return;
+      }
+
+      Console.Write("Enter minimum balance to display >> ");
+      if (!double.TryParse(Console.ReadLine(), out double minBalance)){
+         Console.WriteLine("Invalid balance. Please enter a numeric value.");
+         return;
+      }
+      
+      bool recordsFound = false;
+      Console.WriteLine("\nID Number Name                 Balance");
+      using (StreamReader reader = new StreamReader(filePath)){
+         string line;
+         while ((line = reader.ReadLine()) != null){
+            string[] data = line.Split(',');
+            if (data.Length == 3 && double.TryParse(data[2], NumberStyles.Currency, CultureInfo.GetCultureInfo("en-US"), out double balance)){
+               if (balance >= minBalance){
+                  string idNum = data[0];
+                  string name = data[1];
+                  Console.WriteLine($"{idNum.PadRight(10)}{name.PadRight(20)}{balance.ToString("C", CultureInfo.GetCultureInfo("en-US"))}");
+                  recordsFound = true;
+               }
+            }
+         }
+      }
+      if(!recordsFound) Console.WriteLine("No records found with a balance greater than or equal to the specified amount.");
+   }
+}
