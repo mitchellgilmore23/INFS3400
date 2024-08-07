@@ -1,0 +1,30 @@
+using System;
+using System.IO;
+using static System.Console;
+using System.Globalization;
+class ReadPatientRecords{
+   static void Main(){
+      const string filePath = "Patients.txt";
+      if (!File.Exists(filePath)){
+         Console.WriteLine("The file does not exist.");
+         return;
+      }
+      
+      Console.WriteLine("IdNumber  Name                 Balance");
+      
+      using (StreamReader reader = new StreamReader(filePath)){
+         string line;
+         while ((line = reader.ReadLine()) != null){
+            string[] data = line.Split(',');
+            if (data.Length == 3){
+               string idNum = data[0];
+               string name = data[1];
+               if (double.TryParse(data[2], NumberStyles.Currency, CultureInfo.GetCultureInfo("en-US"), out double balance)){
+                  Console.WriteLine($"{idNum.PadRight(10)}{name.PadRight(20)}{balance.ToString("C", CultureInfo.GetCultureInfo("en-US"))}");
+               }
+            }
+         }
+      }   
+   }
+}
+
