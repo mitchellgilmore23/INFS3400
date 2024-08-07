@@ -1,0 +1,42 @@
+using System;
+using static System.Console;
+using System.IO;
+
+class WritePatientRecords{
+   static void Main(){
+      const string filePath = "Patients.txt";
+      const string endInput = "999";
+      using (StreamWriter writer = new StreamWriter(filePath)){
+            while (true){
+                Console.Write("Enter patient ID number or 999 to quit >> ");
+                string idNum = Console.ReadLine();
+                if (idNum == endInput) break;
+                
+                Console.Write("Enter last name >> ");
+                string name = Console.ReadLine();
+
+                Console.Write("Enter balance >> ");
+
+                if (!double.TryParse(Console.ReadLine(), out double balance)){
+                    Console.WriteLine("Invalid balance. Please enter a numeric value.");
+                    continue;
+                }
+
+                Patient patient = new Patient{
+                    IdNum = idNum,
+                    Name = name,
+                    Balance = balance
+                };
+
+                writer.WriteLine(patient.ToString());
+            }
+        }
+        Console.WriteLine("Patient records saved successfully.");
+   }
+}
+class Patient{
+    public string IdNum { get; set; }
+    public string Name { get; set; }
+    public double Balance { get; set; }
+    public override string ToString() => $"{IdNum},{Name},{Balance}";
+}
